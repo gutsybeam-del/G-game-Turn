@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FIFA 26 Global Sports Tournament</title>
+<script src="https://js.paystack.co/v1/inline.js"></script>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: #0d0d0d;
+    color: #fff;
+}
+
+header {
+    background: linear-gradient(135deg, gold, orange);
+    padding: 25px;
+    text-align: center;
+    color: #000;
+}
+
+.tabs {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 20px;
+}
+
+.tabs button {
+    padding: 10px 20px;
+    border: none;
+    background: gold;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.section {
+    display: none;
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
+}
+
+.section.active {
+    display: block;
+}
+
+.card {
+    background: #1a1a1a;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 20px rgba(255,215,0,0.4);
+}
+
+.card h2 {
+    color: gold;
+}
+
+button {
+    padding: 12px 20px;
+    border: none;
+    background: gold;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+form input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background: #000;
+    color: #aaa;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>🎮 FIFA 26 Global Sports Tournament</h1>
+    <p>Register • Compete • Win Big</p>
+</header>
+
+<div class="tabs">
+    <button onclick="showTab('fifa')">FIFA 26</button>
+    <button onclick="showTab('snooker')">SNOOKER</button>
+    <button onclick="showTab('cod')">CALL OF DUTY</button>
+</div>
+
+<!-- FIFA -->
+<div id="fifa" class="section active">
+    <div class="card">
+        <h2>FIFA 26 Local Pro Tournament</h2>
+        <p>Entry Fee: ₦2,000</p>
+        <p>🏆 Grand Prize: ₦200,000</p>
+
+        <form>
+            <input type="text" id="fifaName" placeholder="Full Name" required>
+            <input type="email" id="fifaEmail" placeholder="Email Address" required>
+            <button type="button" onclick="payWithPaystack(2000, fifaEmail.value)">Pay & Register</button>
+        </form>
+    </div>
+</div>
+
+<!-- SNOOKER -->
+<div id="snooker" class="section">
+    <div class="card">
+        <h2>Snooker Championship</h2>
+        <p>Entry Fee: ₦1,500</p>
+        <p>🏆 Grand Prize: ₦100,000</p>
+
+        <form>
+            <input type="text" placeholder="Full Name">
+            <input type="email" id="snookerEmail" placeholder="Email Address">
+            <button type="button" onclick="payWithPaystack(1500, snookerEmail.value)">Pay & Register</button>
+        </form>
+    </div>
+</div>
+
+<!-- COD -->
+<div id="cod" class="section">
+    <div class="card">
+        <h2>Call of Duty Tournament</h2>
+        <p>Entry Fee: ₦3,000</p>
+        <p>🏆 Grand Prize: ₦300,000</p>
+
+        <form>
+            <input type="text" placeholder="Full Name">
+            <input type="email" id="codEmail" placeholder="Email Address">
+            <button type="button" onclick="payWithPaystack(3000, codEmail.value)">Pay & Register</button>
+        </form>
+    </div>
+</div>
+
+<footer>
+    © 2025 Global Sports Tournament | Powered by Nigeria 🇳🇬
+</footer>
+
+<script>
+function showTab(tab) {
+    document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+    document.getElementById(tab).classList.add('active');
+}
+
+function payWithPaystack(amount, email) {
+    if (!email) {
+        alert("Please enter email");
+        return;
+    }
+
+    let handler = PaystackPop.setup({
+        key: 'pk_test_xxxxxxxxxxxxx', // REPLACE WITH YOUR PAYSTACK PUBLIC KEY
+        email: email,
+        amount: amount * 100,
+        currency: 'NGN',
+        callback: function(response) {
+            alert('Payment successful! Reference: ' + response.reference);
+        },
+        onClose: function() {
+            alert('Transaction cancelled');
+        }
+    });
+    handler.openIframe();
+}
+</script>
+
+</body>
+</html>
