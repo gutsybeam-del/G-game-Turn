@@ -3,133 +3,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FIFA 26 Global Sports Tournament</title>
+    <title>FIFA 26 Global Sports | GBtech Studio</title>
     <script src="https://js.paystack.co/v1/inline.js"></script>
     <style>
-        body { font-family: Arial, sans-serif; margin: 0; background: #0d0d0d; color: #fff; }
-        header { background: linear-gradient(135deg, gold, orange); padding: 25px; text-align: center; color: #000; }
+        :root { --gold: #FFD700; --dark: #0d0d0d; --card: #1a1a1a; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; background: var(--dark); color: #fff; overflow-x: hidden; }
         
-        /* Auth Styles */
-        #auth-container { max-width: 400px; margin: 100px auto; padding: 20px; background: #1a1a1a; border-radius: 10px; border: 1px solid gold; text-align: center; }
-        #main-content { display: none; } /* Hidden until login */
+        /* Auth Screen */
+        #auth-container { max-width: 400px; margin: 80px auto; padding: 30px; background: var(--card); border-radius: 15px; border: 1px solid var(--gold); text-align: center; box-shadow: 0 0 30px rgba(255, 215, 0, 0.2); }
+        #main-content { display: none; }
 
-        .tabs { display: flex; justify-content: center; gap: 15px; margin: 20px; }
-        .tabs button { padding: 10px 20px; border: none; background: gold; cursor: pointer; font-weight: bold; border-radius: 5px; }
-        .section { display: none; max-width: 900px; margin: auto; padding: 20px; }
+        /* Header */
+        header { background: linear-gradient(135deg, #FFD700, #FFA500); padding: 20px; text-align: center; color: #000; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        header h1 { margin: 0; font-size: 1.8rem; text-transform: uppercase; letter-spacing: 2px; }
+
+        /* Tabs */
+        .tabs { display: flex; justify-content: center; gap: 10px; margin: 20px 0; flex-wrap: wrap; }
+        .tabs button { padding: 12px 25px; border: none; background: var(--gold); cursor: pointer; font-weight: bold; border-radius: 30px; transition: 0.3s; color: #000; }
+        .tabs button:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(255,215,0,0.4); }
+
+        /* Sections */
+        .section { display: none; max-width: 900px; margin: auto; padding: 20px; animation: fadeIn 0.5s ease; }
         .section.active { display: block; }
-        .card { background: #1a1a1a; padding: 20px; border-radius: 10px; margin-bottom: 20px; border-left: 5px solid gold; }
-        
-        input { width: 90%; padding: 12px; margin-top: 10px; border-radius: 5px; border: none; }
-        button { padding: 12px 20px; border: none; background: gold; cursor: pointer; font-weight: bold; margin-top: 15px; border-radius: 5px; transition: 0.3s; }
-        button:hover { background: orange; transform: scale(1.05); }
-        .free-btn { background: #444; color: gold; border: 1px solid gold; margin-left: 10px; }
-        
-        footer { text-align: center; padding: 20px; color: #aaa; font-size: 0.8rem; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* Cards & Games */
+        .card { background: var(--card); padding: 25px; border-radius: 15px; border-left: 6px solid var(--gold); margin-bottom: 30px; }
+        .card h2 { color: var(--gold); margin-top: 0; }
+        .game-container { display: none; margin-top: 20px; border: 2px solid #333; border-radius: 10px; overflow: hidden; background: #000; }
+
+        /* Inputs & Buttons */
+        input { width: 100%; padding: 12px; margin-top: 15px; border-radius: 8px; border: 1px solid #333; background: #222; color: #fff; box-sizing: border-box; }
+        button.primary { width: 100%; padding: 15px; border: none; background: var(--gold); color: #000; font-weight: bold; border-radius: 8px; cursor: pointer; font-size: 1rem; margin-top: 20px; }
+        .btn-group { display: flex; gap: 10px; margin-top: 15px; }
+        .btn-group button { flex: 1; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        .pay-btn { background: var(--gold); color: #000; }
+        .play-btn { background: #333; color: var(--gold); border: 1px solid var(--gold); }
+
+        footer { text-align: center; padding: 30px; color: #666; font-size: 0.9rem; }
     </style>
 </head>
 <body>
 
 <div id="auth-container">
-    <h2 id="auth-title" style="color: gold;">Member Login</h2>
+    <h2 id="auth-title" style="color: var(--gold);">GBtech Sports Login</h2>
     <div id="login-form">
-        <input type="email" id="loginEmail" placeholder="Email Address">
-        <input type="password" id="loginPass" placeholder="Password">
-        <button onclick="handleAuth()">Login</button>
-        <p onclick="toggleAuth()" style="cursor:pointer; font-size: 0.8rem; margin-top:15px;">New user? <span style="color:gold">Sign Up here</span></p>
+        <input type="text" id="userName" placeholder="Full Name">
+        <input type="email" id="userEmail" placeholder="Email Address">
+        <input type="password" id="userPass" placeholder="Create Password">
+        <button class="primary" onclick="handleAuth()">Access Tournament</button>
+        <p style="font-size: 0.8rem; margin-top:15px; color: #888;">Enter details to sync your player profile.</p>
     </div>
 </div>
 
 <div id="main-content">
     <header>
-        <h1>🎮 FIFA 26 Global Sports</h1>
-        <p id="welcome-user">Welcome, Player!</p>
-        <button onclick="logout()" style="background:black; color:gold; padding: 5px 10px; font-size: 0.7rem;">Logout</button>
+        <h1>🎮 FIFA 26 GLOBAL SPORTS</h1>
+        <p id="welcome-text" style="font-weight: bold;">Welcome, Player</p>
     </header>
 
     <div class="tabs">
-        <button onclick="showTab('fifa')">FIFA 26</button>
+        <button onclick="showTab('fifa')">FOOTBALL</button>
         <button onclick="showTab('snooker')">SNOOKER</button>
-        <button onclick="showTab('cod')">COD</button>
+        <button onclick="showTab('cod')">STRIKE FORCE (COD)</button>
     </div>
 
     <div id="fifa" class="section active">
         <div class="card">
             <h2>FIFA 26 Pro League</h2>
-            <p>Entry Fee: ₦2,000 | Prize: ₦200,000</p>
-            <button onclick="payWithPaystack(2000)">Pay & Register</button>
-            <button class="free-btn" onclick="freeEntry('FIFA 26')">Try Free Entry</button>
+            <p>Prize Pool: <b>₦200,000</b> | Entry: <b>₦2,000</b></p>
+            <div class="btn-group">
+                <button class="pay-btn" onclick="payWithPaystack(2000, 'FIFA 26')">Pay Entry Fee</button>
+                <button class="play-btn" onclick="toggleGame('fifa-game')">Practice Mode</button>
+            </div>
+            <div id="fifa-game" class="game-container">
+                <iframe src="https://html5.gamedistribution.com/6620579e0131448098696ec06093370e/" width="100%" height="450" frameborder="0"></iframe>
+            </div>
         </div>
     </div>
 
     <div id="snooker" class="section">
         <div class="card">
-            <h2>Snooker Elite</h2>
-            <p>Entry Fee: ₦1,500 | Prize: ₦100,000</p>
-            <button onclick="payWithPaystack(1500)">Pay & Register</button>
-            <button class="free-btn" onclick="freeEntry('Snooker')">Try Free Entry</button>
+            <h2>Snooker Masterclass</h2>
+            <p>Prize Pool: <b>₦100,000</b> | Entry: <b>₦1,500</b></p>
+            <div class="btn-group">
+                <button class="pay-btn" onclick="payWithPaystack(1500, 'Snooker')">Pay Entry Fee</button>
+                <button class="play-btn" onclick="toggleGame('snooker-game')">Practice Mode</button>
+            </div>
+            <div id="snooker-game" class="game-container">
+                <iframe src="https://html5.gamedistribution.com/3932a392945244ca843bc4b0c793f0b2/" width="100%" height="450" frameborder="0"></iframe>
+            </div>
         </div>
     </div>
 
     <div id="cod" class="section">
         <div class="card">
-            <h2>COD: Mobile War</h2>
-            <p>Entry Fee: ₦3,000 | Prize: ₦300,000</p>
-            <button onclick="payWithPaystack(3000)">Pay & Register</button>
-            <button class="free-btn" onclick="freeEntry('COD')">Try Free Entry</button>
+            <h2>Combat Strike (COD Style)</h2>
+            <p>Prize Pool: <b>₦300,000</b> | Entry: <b>₦3,000</b></p>
+            <div class="btn-group">
+                <button class="pay-btn" onclick="payWithPaystack(3000, 'Combat Strike')">Pay Entry Fee</button>
+                <button class="play-btn" onclick="toggleGame('cod-game')">Practice Mode</button>
+            </div>
+            <div id="cod-game" class="game-container">
+                <iframe src="https://html5.gamedistribution.com/6948606060014769a99723508d438096/" width="100%" height="450" frameborder="0"></iframe>
+            </div>
         </div>
     </div>
+
+    <footer onclick="location.reload()" style="cursor:pointer">
+        <p>© 2025 GBtech Studio | Developed by Akinpelu Oluwole Joseph</p>
+        <p style="color:var(--gold)">Tap to Logout</p>
+    </footer>
 </div>
 
-<footer>© 2025 GBtech Studio | Global Sports Tournament</footer>
-
 <script>
-    let currentUserEmail = "";
+    let playerEmail = "";
+    let playerName = "";
 
-    // 1. Auth Logic
-    function toggleAuth() {
-        const title = document.getElementById('auth-title');
-        title.innerText = title.innerText === "Member Login" ? "Create Account" : "Member Login";
-    }
-
+    // Login logic
     function handleAuth() {
-        const email = document.getElementById('loginEmail').value;
-        const pass = document.getElementById('loginPass').value;
-
-        if(email && pass) {
-            currentUserEmail = email;
+        playerName = document.getElementById('userName').value;
+        playerEmail = document.getElementById('userEmail').value;
+        if(playerName && playerEmail) {
             document.getElementById('auth-container').style.display = 'none';
             document.getElementById('main-content').style.display = 'block';
-            document.getElementById('welcome-user').innerText = `Welcome, ${email}!`;
+            document.getElementById('welcome-text').innerText = `Welcome, ${playerName}! 🏆`;
         } else {
-            alert("Please fill all fields");
+            alert("Please enter your name and email to proceed.");
         }
     }
 
-    function logout() {
-        location.reload(); // Simple way to reset session
+    // Tab Switching
+    function showTab(tabId) {
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
     }
 
-    // 2. Tab Logic
-    function showTab(tab) {
-        document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
-        document.getElementById(tab).classList.add('active');
+    // Toggle Game Iframe
+    function toggleGame(id) {
+        const game = document.getElementById(id);
+        game.style.display = (game.style.display === 'block') ? 'none' : 'block';
     }
 
-    // 3. Free Entry Logic
-    function freeEntry(game) {
-        alert(`Request Sent! Your free entry for ${game} is being reviewed by the Admin.`);
-        // Here you would typically send this to your database/WhatsApp
+    // WhatsApp Notification Logic
+    function notifyAdmin(ref, game) {
+        const adminPhone = "2349079830109";
+        const msg = `Tournament Registration:%0AUser: ${playerName}%0AGame: ${game}%0ARef: ${ref}`;
+        window.open(`https://wa.me/${adminPhone}?text=${msg}`, '_blank');
     }
 
-    // 4. Payment Logic
-    function payWithPaystack(amount) {
+    // Paystack Integration
+    function payWithPaystack(amount, gameName) {
         let handler = PaystackPop.setup({
-            key: 'pk_test_xxxxxxxxxxxxxxxxxxxxxxxx', // Put your Key here
-            email: currentUserEmail,
+            key: 'pk_test_xxxxxxxxxxxxxxxxxxxxxxxx', // REPLACE WITH YOUR PUBLIC KEY
+            email: playerEmail,
             amount: amount * 100,
             currency: 'NGN',
             callback: function(response) {
-                alert('Payment Success! Ref: ' + response.reference);
+                alert('Success! Reference: ' + response.reference);
+                notifyAdmin(response.reference, gameName);
+            },
+            onClose: function() {
+                alert('Payment window closed.');
             }
         });
         handler.openIframe();
